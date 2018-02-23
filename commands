@@ -1,0 +1,10 @@
+RegressionTrainer requires make and no scram b
+Thus go inside other directories and do scram b -j10
+HiggsAnalysis is used RegressionTrainer and requires scram b -j10
+
+
+
+Have the roottrees from RegressionTreeProducer
+ python separateTestingTrainingTrees.py PU_5TO300
+./addRootFiles.sh
+
