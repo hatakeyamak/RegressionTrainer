@@ -225,18 +225,25 @@ def Fit():
 
     rawArgList = ROOT.RooArgList( clusrawE, genEnergy )    
     rawformula = ROOT.RooFormulaVar( 'rawformula', 'raw', '(@0/@1)', rawArgList )
+    
+    ####added on 26th march
+    if args.region == 'EE':
+        rawArgList = ROOT.RooArgList( clusrawE, genEnergy, clusPS1, clusPS1 ) 
+        rawformula = ROOT.RooFormulaVar( 'rawformula', 'raw', '((@0+@2+@3)/@1)', rawArgList )
+
+
     rawvar = hdata.addColumn(rawformula)
     rawvar.setRange( 0., 2. )
     rawvar.setBins(nBinningHistVars)
 
     ecor74ArgList = ROOT.RooArgList( cluscorrE, genEnergy )
-    ecor74formula = ROOT.RooFormulaVar( 'ecor74formula', 'corr. (74X)', '(@0/@1)', ecor74ArgList )
+    ecor74formula = ROOT.RooFormulaVar( 'ecor74formula', 'corr. (91X)', '(@0/@1)', ecor74ArgList )
     ecor74var = hdata.addColumn(ecor74formula)
     ecor74var.setRange( 0., 2. )
     ecor74var.setBins(nBinningHistVars)
 
     ecor91ArgList = ROOT.RooArgList( e91X, genEnergy )
-    ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (91X)', '(@0/@1)', ecor91ArgList )
+    ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (10X)', '(@0/@1)', ecor91ArgList )
     ecor91var = hdata.addColumn(ecor91formula)
     ecor91var.setRange( 0., 2. )
     ecor91var.setBins(nBinningHistVars)
@@ -259,8 +266,9 @@ def Fit():
 #            ]
 
         globalPt_bounds = [
-            #0.25,
-            1.2,
+            
+            #1.2,
+            2.0,
             5.0,
             20.,
             100.,
@@ -288,12 +296,15 @@ def Fit():
 #    allPt_bounds += [ 18.0  + 8.2*i   for i in xrange(10) ]
 #    allPt_bounds += [100.0]
 #
-#    allPt_bounds = [0.25]
-#    allPt_bounds += [ 0.25  + 0.475*i for i in xrange(1,5) ]
-    allPt_bounds = [1.2]
-#    allPt_bounds += [ 1.0  + 0.475*i for i in xrange(1,5) ]
-    allPt_bounds += [ 0.25  + 0.475*i for i in xrange(3,5) ]
-    allPt_bounds += [ 2.15  + 1.425*2 ]
+########HERE
+#    allPt_bounds = [1.2]
+#    allPt_bounds = [1.2,2,4,5]
+#    allPt_bounds += [ 0.25  + 0.475*i for i in xrange(3,5) ]
+#    allPt_bounds += [ 2.15  + 1.425*2 ]
+    #allPt_bounds = [1.2] 
+    allPt_bounds = [2.0, 4, 5] 
+#    allPt_bounds += [ 0.25  + 0.475*i for i in xrange(3,5) ]
+#    allPt_bounds += [ 2.15  + 1.425*2 ]
     allPt_bounds += [ 5.0   + 1.5*i  for i in xrange(1,10) ]
     allPt_bounds += [ 20.0  + 8.2*i   for i in xrange(10) ]
 #    allPt_bounds += [100.0]
@@ -301,11 +312,12 @@ def Fit():
 
 #    
     if not dobarrel and not doZS:
-#        allPt_bounds = [0.25]
-#        allPt_bounds += [ 0.25  + 1.15*i for i in xrange(1,3) ]
-        allPt_bounds = [1.2]
-        allPt_bounds += [ 0.25  + 1.15*i for i in xrange(2,3) ]
-        allPt_bounds += [ 2.55  + 2.45 ]
+
+#        allPt_bounds = [1.2, 2, 5]
+#        allPt_bounds = [1.2]
+        allPt_bounds = [2.0, 4, 5]
+#        allPt_bounds += [ 0.25  + 1.15*i for i in xrange(2,3) ]
+#        allPt_bounds += [ 2.55  + 2.45 ]
         allPt_bounds += [ 5.0   + 1.5*i  for i in xrange(1,10) ]
         allPt_bounds += [ 20.0  + 8.2*i   for i in xrange(10) ]
 #        allPt_bounds += [100.0]
@@ -357,7 +369,7 @@ def Fit():
 
         histogramVariables = [
             rawvar,
-            #ecor74var,
+            ecor74var,
             ecor91var,
             ]
         
@@ -398,14 +410,19 @@ def Fit():
         # genEta plot
 
         if dobarrel:
-            genEta_bounds = [ 0.0 + 0.075*i for i in xrange(21) ]
+            #genEta_bounds = [ 0.0 + 0.075*i for i in xrange(21) ]
+#            genEta_bounds = [ 0.0 + 0.1*i for i in xrange(16) ]
+            genEta_bounds = [ 0.0 + 0.14*i for i in xrange(11) ]
         else:
             #genEta_bounds = [ 1.4 + 0.055*i for i in xrange(21) ]
             #genEta_bounds = [ 1.4,1.51]
             #genEta_bounds += [ 1.565 + 0.055*i for i in xrange(20) ]
 
             genEta_bounds = [ 1.4,1.565]
-            genEta_bounds += [ 1.62 + 0.055*i for i in xrange(22) ]
+            #genEta_bounds += [ 1.62 + 0.055*i for i in xrange(22) ]
+#            genEta_bounds += [ 1.62 + 0.1*i for i in xrange(10) ]
+#            genEta_bounds += [ 1.62 + 0.15*i for i in xrange(7) ]
+            genEta_bounds += [ 1.6 + 0.2*i for i in xrange(5) ]
             genEta_bounds += [3.0]
 
 #        if dobarrel:

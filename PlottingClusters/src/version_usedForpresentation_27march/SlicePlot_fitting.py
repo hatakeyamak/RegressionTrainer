@@ -263,9 +263,7 @@ def FitOneSliceGaus( self, hdata_reduced, histvar, unbinnedFit=False ):
 #    self.fit_x_max = peak + 0.4*histrms
 
 
-#    self.fit_x_min = peak - 0.6*histrms
-
-    self.fit_x_min = peak - 0.4*histrms
+    self.fit_x_min = peak - 0.6*histrms
     self.fit_x_max = peak + 0.5*histrms
 
 

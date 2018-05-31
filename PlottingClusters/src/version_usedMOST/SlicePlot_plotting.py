@@ -315,8 +315,6 @@ def MakePlots_standard( self ):
             bin_width  = self.bounds[i_bin+1] - self.bounds[i_bin]
             bin_center = self.bounds[i_bin] + 0.5*bin_width
             Hsigma.SetBinContent( i_bin+1, self.Fit[histvar.GetName()]['effsigma'][i_bin]/self.Fit[histvar.GetName()]['CBvals'][i_bin][2] )
-            #print ""
-            #print "hist name : effsigma : mean  : ", histvar.GetName(), " ",self.Fit[histvar.GetName()]['effsigma'][i_bin]," ",self.Fit[histvar.GetName()]['CBvals'][i_bin][2]
             #Hsigma.SetBinContent( i_bin+1, self.Fit[histvar.GetName()]['effsigma'][i_bin] )
             #Hsigma.SetBinError(   i_bin+1, self.Fit[histvar.GetName()]['CBerrs'][i_bin][3] )
             Hsigma.SetBinError(   i_bin+1, 0 )

@@ -70,10 +70,12 @@ def FitOneSlice( self, hdata_reduced, histvar, unbinnedFit=False ):
     #mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.9,    1.1 );
     #mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.8,    1.1 ); ###SJ
     #mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.5,    1.5 ); ###SJ
-    mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.7,    1.5 ); ###SJ
+    #mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.7,    1.5 ); ###SJ
+    mean = ROOT.RooRealVar( RootName(), RootName(), 1.,   0.6,    1.4 ); ###SJ
     #sig  = ROOT.RooRealVar( RootName(), RootName(), 0.01, 0.0002, 0.8 );
     #sig  = ROOT.RooRealVar( RootName(), RootName(), 0.01, 0.0002, 1.4);
-    sig  = ROOT.RooRealVar( RootName(), RootName(), 0.1, 0.0002, 1.4);
+    #sig  = ROOT.RooRealVar( RootName(), RootName(), 0.1, 0.0002, 1.4);
+    sig  = ROOT.RooRealVar( RootName(), RootName(), 0.1, 0.0002, 1.5);
     #a1   = ROOT.RooRealVar( RootName(), RootName(), 3,    0.05,   10 );
     #a2   = ROOT.RooRealVar( RootName(), RootName(), 3,    0.05,   10 );
     a1   = ROOT.RooRealVar( RootName(), RootName(), 3,    0.05,   150 );
@@ -109,8 +111,6 @@ def FitOneSlice( self, hdata_reduced, histvar, unbinnedFit=False ):
     else:
         #nBinning = 1000
         #nBinning = 500
-        #nBinning = 50
-        #nBinning = 60
         nBinning = 50
 
         hdatahist_fit = ROOT.RooDataHist(
@@ -135,10 +135,7 @@ def FitOneSlice( self, hdata_reduced, histvar, unbinnedFit=False ):
     histCB = pdfCB.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(2000) )
     #effsigma = ROOT.effSigma( histCB )
     hdatahist_hist_fit = hdatahist_fit.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(nBinning) )
-    #effsigma = ROOT.effSigma( hdatahist_hist_fit )
-
-    hdatahist_histsigma = hdatahist_fit.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(1000) )
-    effsigma = ROOT.effSigma( hdatahist_histsigma )
+    effsigma = ROOT.effSigma( hdatahist_hist_fit )
 
     #histCB1 = pdfCB.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(nBinning) )
     # Make a histogram of the reduced dataset for easy plotting later
@@ -243,8 +240,6 @@ def FitOneSliceGaus( self, hdata_reduced, histvar, unbinnedFit=False ):
 
     
     nBinning = 50
-    #nBinning = 100
-
     hdatahist_hist_fit = hdatahist_fit.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(nBinning) )
 
     peak = hdatahist_hist_fit.GetXaxis().GetBinCenter(hdatahist_hist_fit.GetMaximumBin())
@@ -263,9 +258,7 @@ def FitOneSliceGaus( self, hdata_reduced, histvar, unbinnedFit=False ):
 #    self.fit_x_max = peak + 0.4*histrms
 
 
-#    self.fit_x_min = peak - 0.6*histrms
-
-    self.fit_x_min = peak - 0.4*histrms
+    self.fit_x_min = peak - 0.6*histrms
     self.fit_x_max = peak + 0.5*histrms
 
 
@@ -331,10 +324,7 @@ def FitOneSliceGaus( self, hdata_reduced, histvar, unbinnedFit=False ):
     meanerr = self.tfGaus.GetParError(1)
     sigerr = self.tfGaus.GetParError(2)
 
-    #effsigma = ROOT.effSigma( hdatahist_hist_fit )
-
-    hdatahist_histsigma = hdatahist_fit.createHistogram( RootName(), histvar, ROOT.RooFit.Binning(1000) )
-    effsigma = ROOT.effSigma( hdatahist_histsigma )
+    effsigma = ROOT.effSigma( hdatahist_hist_fit )
 
     # Make a histogram of the reduced dataset for easy plotting later
 

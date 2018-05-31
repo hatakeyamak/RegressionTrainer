@@ -177,7 +177,6 @@ def MakePlots_standard( self ):
     if self.name == 'EBFULL_GENPT_0005_0020':
         self.sliceplot_y_min = 0.9
         self.sliceplot_y_max = 1.1
-#        self.sliceplotsigma_y_max = 0.2
         self.sliceplotsigma_y_max = 0.2
     
     if self.name == 'EEFULL_GENPT_0005_0020':
@@ -194,28 +193,6 @@ def MakePlots_standard( self ):
         self.sliceplot_y_min = 0.9
         self.sliceplot_y_max = 1.1
         self.sliceplotsigma_y_max = 0.2
-
-
-#######3rd pt bin
-    if self.name == 'EBFULL_GENPT_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-    
-    if self.name == 'EEFULL_GENPT_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-    
-    if self.name == 'EBFULL_GENETA_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-    
-    if self.name == 'EEFULL_GENETA_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
         
 
     
@@ -315,8 +292,6 @@ def MakePlots_standard( self ):
             bin_width  = self.bounds[i_bin+1] - self.bounds[i_bin]
             bin_center = self.bounds[i_bin] + 0.5*bin_width
             Hsigma.SetBinContent( i_bin+1, self.Fit[histvar.GetName()]['effsigma'][i_bin]/self.Fit[histvar.GetName()]['CBvals'][i_bin][2] )
-            #print ""
-            #print "hist name : effsigma : mean  : ", histvar.GetName(), " ",self.Fit[histvar.GetName()]['effsigma'][i_bin]," ",self.Fit[histvar.GetName()]['CBvals'][i_bin][2]
             #Hsigma.SetBinContent( i_bin+1, self.Fit[histvar.GetName()]['effsigma'][i_bin] )
             #Hsigma.SetBinError(   i_bin+1, self.Fit[histvar.GetName()]['CBerrs'][i_bin][3] )
             Hsigma.SetBinError(   i_bin+1, 0 )
@@ -494,27 +469,7 @@ def MakePlots_standard_Gaus( self ):
 
 
     print "histvar name is ", histvarname
-    #######3rd pt bin
-    if self.name == 'EBFULL_GENPT_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
     
-    if self.name == 'EEFULL_GENPT_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-    
-    if self.name == 'EBFULL_GENETA_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-    
-    if self.name == 'EEFULL_GENETA_0001_0005':
-        self.sliceplot_y_min = 0.9
-        self.sliceplot_y_max = 1.1
-        self.sliceplotsigma_y_max = 0.3
-
     
     base.GetXaxis().SetLimits( self.bounds[0], self.bounds[-1] )
     base.SetMinimum(self.sliceplot_y_min)
