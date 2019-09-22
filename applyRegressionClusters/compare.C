@@ -142,12 +142,20 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
    vector<float> genEta_bounds;
    if(dobarrel){
      for(int jj=0; jj<21; jj++)
-       genEta_bounds.push_back(0.0 + 0.075*jj); 
+       //genEta_bounds.push_back(0.0 + 0.075*jj); 
+       genEta_bounds.push_back(0.0 + 0.14*jj); 
    }
    else{
      
-     for(int jj=0; jj<21; jj++)
-       genEta_bounds.push_back(1.4 + 0.055*jj); 
+     genEta_bounds.push_back(1.4); 
+     genEta_bounds.push_back(1.565); 
+     
+     for(int jj=0; jj<4; jj++){
+       //genEta_bounds.push_back(1.4 + 0.055*jj); 
+       genEta_bounds.push_back(1.6 + 0.2*jj); 
+     }
+     genEta_bounds.push_back(2.5);
+     genEta_bounds.push_back(3);  
    }
 
    TVector TgenEta_bounds(genEta_bounds.size(), &genEta_bounds[0]);
@@ -243,8 +251,10 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
        cout<<"Nae of the histo for memory is "<<Form("genPT_%.3fTO%.3f",allPt_bounds[ii], allPt_bounds[ii+1])<<endl;
      }
 
-     /*
+     
      for(int kk=0; kk<globalPt_bounds.size()-1; kk++){
+
+       /*
        for(int ii=0; ii<clusSize_bounds.size()-1; ii++){
 	 
 	 hnewCorrmap[Form("clusSIZE_%.0fTO%.0f_pT%.3fTO%.3f",clusSize_bounds[ii], clusSize_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1])] = new TH1F(Form("eCorr91X_clusSIZE_%.0fTO%.0f_pT%.3fTO%.3f",clusSize_bounds[ii], clusSize_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1]),"", nbins,xmin,xmax);
@@ -263,11 +273,12 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
 	 
 	 cout<<"Nae of the histo for memory is "<<Form("clusSIZE_%.0fTO%.0f_pT%.3fTO%.3f",clusSize_bounds[ii], clusSize_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1])<<endl;
        }//for(int ii=0; ii<clusSize_bounds.size()-1; ii++
-
+     */
 
        ///genETA
        for(int ii=0; ii<genEta_bounds.size()-1; ii++){
 	 
+	 //cout<<"GenEta name is "<<Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[ii], genEta_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1])<<endl;
 	 hnewCorrmap[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[ii], genEta_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1])] = new TH1F(Form("eCorr91X_genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[ii], genEta_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1]),"", nbins,xmin,xmax);
 
 	 hnewCorrmapMCv1[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[ii], genEta_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1])] = new TH1F(Form("eCorr91X_genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[ii], genEta_bounds[ii+1], globalPt_bounds[kk],  globalPt_bounds[kk+1]),"", nbins,xmin,xmax);
@@ -285,11 +296,14 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
        }//for(int ii=0; ii<genEta_bounds.size()-1; ii++
 
      }//for(int ii=1; ii<globalPt_bounds.size(); ii++)
-     */
+     
 
 
      cout<<"openinign MCv2 root file"<<endl;
-     TFile *fnew = TFile::Open("pfClusters_PU_withRegression.root");
+     //TFile *fnew = TFile::Open("pfClusters_PU_withRegression.root");
+     //TFile *fnew = TFile::Open("pfClusters_PU_withRegression_correctGT_weights10p5.root");
+     TFile *fnew = TFile::Open("pfClusters_PU_withRegression_correctGT_weights10p6.root");
+     //TFile *fnew = TFile::Open("/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/rootfiles_EEweights10pM5/pfClusters_PU_withRegression.root");
      TTree *tnew = (TTree*)fnew->Get("een_analyzer/PfTree");
      Init(tnew);
      cout<<"openend MCv2 root file"<<endl;
@@ -397,19 +411,24 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
       }
       */
 
-      /*
+
       if(fabs(genEta) < genEta_bounds[genEta_bounds.size()-1]){
 	
 	
 	//genEta
-	int etabin = hETA->FindBin(genEta);
+	int etabin = hETA->FindBin( fabs(genEta) );
 	
+	if(doendcap)
+	  if(fabs(genEta)<1.5) continue;
 	
+	//cout<<"while filling, eta is and eta bin is "<<genEta<<" "<<etabin<<endl;
+	//cout<<"While filling, geneta name is "<<Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[etabin-1], genEta_bounds[etabin], globalPt_bounds[gptbin-1], globalPt_bounds[gptbin])<<endl;
 	hnewCorrmap[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[etabin-1], genEta_bounds[etabin], globalPt_bounds[gptbin-1], globalPt_bounds[gptbin])]->Fill(newRatio); 
 	holdCorrmap[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[etabin-1], genEta_bounds[etabin], globalPt_bounds[gptbin-1], globalPt_bounds[gptbin])]->Fill(oldRatio); 
 	hrawCorrmap[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[etabin-1], genEta_bounds[etabin], globalPt_bounds[gptbin-1], globalPt_bounds[gptbin])]->Fill(rawRatio); 
       }
-
+      
+      /*
       int nvtxbin = hNVTX->FindBin(nvtx);
       */
 
@@ -418,7 +437,11 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
 
    ////Do the same using MCV1 samples
    //TFile *fold = TFile::Open("pfClusters_noPU_PU_withRegression_MCv1.root");
-   TFile *fold = TFile::Open("pfClusters_PU_withRegression_OLD.root");
+   //TFile *fold = TFile::Open("pfClusters_PU_withRegression_OLD.root");
+   //TFile *fold = TFile::Open("pfClusters_PU_withRegression.root");
+
+   //TFile *fold = TFile::Open("pfClusters_PU_withRegression_correctGT_weights10p5.root");
+   TFile *fold = TFile::Open("pfClusters_PU_withRegression_correctGT_weights10p6.root");
    TTree *told = (TTree*)fold->Get("een_analyzer/PfTree");
    Init(told);
 
@@ -522,8 +545,9 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
       */
 
       /*
+      
       if(fabs(genEta) < genEta_bounds[genEta_bounds.size()-1]){
-
+	
 
 	//genEta
 	int etabin = hETA->FindBin(genEta);
@@ -534,6 +558,7 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
 	hrawCorrmapMCv1[Form("genEta_%.4fTO%.4f_pT%.3fTO%.3f",genEta_bounds[etabin-1], genEta_bounds[etabin], globalPt_bounds[gptbin-1], globalPt_bounds[gptbin])]->Fill(rawRatio); 
       }
 
+      
       int nvtxbin = hNVTX->FindBin(nvtx);
       */
 
@@ -563,7 +588,8 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
    int ii=0;
    for( it = hnewCorrmap.begin(); it != hnewCorrmap.end(); ++it ) {
 
-     TLegend* leg = new TLegend(0.150402,0.7125436,0.404975,0.8954704,NULL,"brNDC");
+     //TLegend* leg = new TLegend(0.150402,0.7125436,0.404975,0.8954704,NULL,"brNDC");
+     TLegend* leg = new TLegend(0.14,0.7125436,0.3,0.8954704,NULL,"brNDC");
      //TLegend* leg = new TLegend(0.150402,0.7125436,0.404975,0.8954704,NULL,"brNDC");
      
      TCanvas *c = new TCanvas("c","c",50,50,W,H);
@@ -575,18 +601,20 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
      //cout<<"Integral is raw : 714 : new "<<hrawCorrmap[name]->Integral()<<" "<<holdCorrmap[name]->Integral()<<" "<<hnewCorrmap[name]->Integral()<<endl;
 
 
-     cout<<"Integral is MCv1 : MCv2 "<<hnewCorrmapMCv1[name]->Integral()<<" "<<hnewCorrmap[name]->Integral()<<endl;
+     //cout<<"Integral is MCv1 : MCv2 "<<hnewCorrmapMCv1[name]->Integral()<<" "<<hnewCorrmap[name]->Integral()<<endl;
 
-     hnewCorrmap[name]->SetLineColor(2);
+     hnewCorrmap[name]->SetLineColor(4);
      hnewCorrmap[name]->SetLineWidth(2);
-     hnewCorrmapMCv1[name]->SetLineColor(1);
-     hnewCorrmapMCv1[name]->SetLineWidth(2);
+     //hnewCorrmapMCv1[name]->SetLineColor(1);
+     //hnewCorrmapMCv1[name]->SetLineWidth(2);
 
+     holdCorrmap[name]->SetLineColor(3);
+     holdCorrmap[name]->SetLineWidth(2);
 
-     hrawCorrmap[name]->SetLineColor(2);
+     hrawCorrmap[name]->SetLineColor(1);
      hrawCorrmap[name]->SetLineWidth(2);
-     hrawCorrmapMCv1[name]->SetLineColor(1);
-     hrawCorrmapMCv1[name]->SetLineWidth(2);
+     //hrawCorrmapMCv1[name]->SetLineColor(1);
+     //hrawCorrmapMCv1[name]->SetLineWidth(2);
 
 
 
@@ -597,38 +625,42 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
      hnewCorrmap[name]->Scale(1./scale);
 
 
-     scale = hnewCorrmapMCv1[name]->Integral();
-     hnewCorrmapMCv1[name]->Scale(1./scale);
+     scale = hnewCorrmap[name]->Integral();
+     hnewCorrmap[name]->Scale(1./scale);
      
+     scale = holdCorrmap[name]->Integral();
+     holdCorrmap[name]->Scale(1./scale);
+
      scale = hrawCorrmap[name]->Integral();
      hrawCorrmap[name]->Scale(1./scale);
-
-     scale = hrawCorrmapMCv1[name]->Integral();
-     hrawCorrmapMCv1[name]->Scale(1./scale);
 
      //scale = hrawCorrmap[name]->Integral();
      //hrawCorrmap[name]->Scale(1./scale);
 
-     double dmax = 15;
+     //double dmax = 15;
 
-     double max = TMath::Max(hnewCorrmap[name]->GetMaximum(), hnewCorrmapMCv1[name]->GetMaximum());
+     double dmax = 1.05;
 
+     double max = TMath::Max(hnewCorrmap[name]->GetMaximum(), holdCorrmap[name]->GetMaximum());
+     max = TMath::Max(max, hrawCorrmap[name]->GetMaximum());
+     
      //max = TMath::Max(max, hrawCorrmap[name]->GetMaximum());
      hnewCorrmap[name]->SetMaximum(max*dmax);
-     hnewCorrmapMCv1[name]->SetMaximum(max*dmax);
-     //holdCorrmap[name]->SetMaximum(max*1.5);
-     //hrawCorrmap[name]->SetMaximum(max*1.5);
+     //hnewCorrmapMCv1[name]->SetMaximum(max*dmax);
+     holdCorrmap[name]->SetMaximum(max*dmax);
+     hrawCorrmap[name]->SetMaximum(max*dmax);
 
-     c->SetLogy();
+     //c->SetLogy();
      hnewCorrmap[name]->Draw("HIST");
-     hnewCorrmapMCv1[name]->Draw("HISTsame");
+     holdCorrmap[name]->Draw("HISTsame");
      //holdCorrmap[name]->Draw("HISTsame"); 
-     //hrawCorrmap[name]->Draw("HISTsame");
+     hrawCorrmap[name]->Draw("HISTsame");
 
-     leg->AddEntry(hnewCorrmapMCv1[name],"NEW CORR on MCv1","lp");
-     leg->AddEntry(hnewCorrmap[name],"NEW CORR on MCv2","lp");
-     //leg->AddEntry(holdCorrmap[name],"OLD CORR","lp");
-     //leg->AddEntry(hrawCorrmap[name],"RAW CORR","lp");
+     //leg->AddEntry(hnewCorrmapMCv1[name],"NEW CORR on MCv1","lp");
+     //leg->AddEntry(hnewCorrmap[name],"NEW CORR on MCv2","lp");
+     leg->AddEntry(hnewCorrmap[name],"NEW CORR ","lp");
+     leg->AddEntry(holdCorrmap[name],"OLD CORR","lp");
+     leg->AddEntry(hrawCorrmap[name],"RAW CORR","lp");
 
      leg->Draw();
      c->Modified();
@@ -639,6 +671,7 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
      sprintf(filename,"plots/histoPtnew_%s_%s_%s_Eff.C",name.c_str(),region.c_str(),flag.c_str());
      c->Print(filename);
 
+     /*
      /////Draw raw energies
      max = TMath::Max(hrawCorrmap[name]->GetMaximum(), hrawCorrmapMCv1[name]->GetMaximum());
      hrawCorrmap[name]->SetMaximum(max*dmax);
@@ -658,7 +691,7 @@ void compare::Loop(string region, string flag /*FULL, FULL*/)
      craw->Print(filename);
      sprintf(filename,"plots/histoPtRaw_%s_%s_%s_Eff.C",name.c_str(),region.c_str(),flag.c_str());
      craw->Print(filename);
-
+     */
 
 
    }

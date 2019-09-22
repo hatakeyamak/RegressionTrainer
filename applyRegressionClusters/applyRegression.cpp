@@ -182,9 +182,11 @@ int main(int argc, char** argv) {
 
   //std::cout<<"Opened the testing file"<<std::endl;
 
+
   TTreeFormula clusrawE("clusrawE", "clusrawE", testingTree);
   TTreeFormula cluscorrE("cluscorrE", "cluscorrE", testingTree);
   TTreeFormula genEnergy("genEnergy", "genEnergy", testingTree);
+  
   TTreeFormula clusEta("clusEta", "clusEta", testingTree);
   TTreeFormula clusPhi("clusPhi", "clusPhi", testingTree);
 
@@ -195,13 +197,20 @@ int main(int argc, char** argv) {
   TTreeFormula clusPS2("clusPS2", "clusPS2", testingTree);
   TTreeFormula clusFlag("clusFlag", "clusFlag", testingTree);
   TTreeFormula clusLayer("clusLayer", "clusLayer", testingTree);
+
+  
   TTreeFormula clusSize("clusSize", "clusSize", testingTree);
   TTreeFormula ietamod20("ietamod20", "ietamod20", testingTree);
   TTreeFormula iphimod20("iphimod20", "iphimod20", testingTree);
 
   //TTreeFormula weight("weight", "weight", testingTree);
   TTreeFormula nvtx("nvtx", "nvtx", testingTree);
-  TTreeFormula nhits("nhits", "nhits", testingTree);
+  //TTreeFormula nhits("nhits", "nhits", testingTree);
+  
+  TTreeFormula nhits("nhits_mod", "nhits_mod", testingTree);
+  
+
+  TTreeFormula nhits_orig("nhits", "nhits", testingTree);
 
   char_separator<char> sep(":");
 
@@ -346,6 +355,14 @@ int main(int argc, char** argv) {
       }
     */
 
+    /*
+    if(EB_ && pt3_){
+      
+      cout<<"nhits_mod : "<<nhits.EvalInstance()<<endl;
+    }
+    */
+
+    
     if (TMath::Abs(response) > TMath::Pi()/2 ) response = 0.0;
     else response = responseOffset + responseScale*sin(response);
   
@@ -372,6 +389,7 @@ int main(int argc, char** argv) {
     //if (EE_ && !zs_ && pt3_) cout<<" 91X response : "<<response << endl;
     //cout<<" 91X response : "<<response << endl;
 
+    
     if (debug) cout << "91X response " << response << endl;
     if (EB_) {
       if (debug) cout << "GEN (91X) response " << genEnergy.EvalInstance()/clusrawE.EvalInstance() << endl;
