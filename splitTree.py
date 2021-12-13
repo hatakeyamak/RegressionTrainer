@@ -18,7 +18,9 @@ import ROOT, math, numpy
 
 #inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/pfClusters_PU_training.root')
 
-inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClusters_noPU_training.root')
+#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClusters_noPU_training.root')
+#inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_pt_training.root')
+inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_using_my_db_training.root')
 
 inputTree = inputFile.Get('een_analyzer/PfTree')
 
@@ -38,7 +40,7 @@ nhits_mod     = numpy.zeros(1, dtype=int)
 outputs = []
 for cat in categories:
     outputs.append([])
-    #outputs[-1].append(ROOT.TFile.Open('pfClustersTree_%s.root'% cat, 'RECREATE'))
+    outputs[-1].append(ROOT.TFile.Open('pfClustersTree_%s.root'% cat, 'RECREATE'))
 #    outputs[-1].append(ROOT.TFile.Open('eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/splitTraining_ZS_FULL_3pTbins/pfClustersTree_%s.root'% cat, 'RECREATE'))
     #outputs[-1].append(ROOT.TFile.Open('eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/afterDebug_16june/pfClustersTree_%s.root'% cat, 'RECREATE'))
 
@@ -50,7 +52,7 @@ for cat in categories:
 
 #    outputs[-1].append(ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/PU_allEta/pfClustersTree_%s.root'% cat, 'RECREATE'))
 
-    outputs[-1].append(ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClustersTree_%s.root'% cat, 'RECREATE'))
+    #outputs[-1].append(ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClustersTree_%s.root'% cat, 'RECREATE'))
 
 #    outputs[-1].append(ROOT.TFile.Open('test_%s.root'% cat, 'RECREATE'))
     outputs[-1][0].mkdir('een_analyzer')

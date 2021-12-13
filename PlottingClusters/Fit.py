@@ -240,13 +240,15 @@ def Fit():
     rawvar.setBins(nBinningHistVars)
 
     ecor74ArgList = ROOT.RooArgList( cluscorrE, genEnergy )
-    ecor74formula = ROOT.RooFormulaVar( 'ecor74formula', 'corr. (91X)', '(@0/@1)', ecor74ArgList )
+    #ecor74formula = ROOT.RooFormulaVar( 'ecor74formula', 'corr. (91X)', '(@0/@1)', ecor74ArgList )
+    ecor74formula = ROOT.RooFormulaVar( 'ecor74formula', 'corr. (105X)', '(@0/@1)', ecor74ArgList )
     ecor74var = hdata.addColumn(ecor74formula)
     ecor74var.setRange( 0., 2. )
     ecor74var.setBins(nBinningHistVars)
 
     ecor91ArgList = ROOT.RooArgList( e91X, genEnergy )
-    ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (10X)', '(@0/@1)', ecor91ArgList )
+    #ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (10X)', '(@0/@1)', ecor91ArgList )
+    ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (120X)', '(@0/@1)', ecor91ArgList )
     #ecor91formula = ROOT.RooFormulaVar( 'ecor91formula', 'corr. (94X)', '(@0/@1)', ecor91ArgList )
     ecor91var = hdata.addColumn(ecor91formula)
     ecor91var.setRange( 0., 2. )

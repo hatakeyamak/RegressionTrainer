@@ -100,20 +100,20 @@ int main(int argc, char** argv) {
   GBRForestD* forest_EB_zs1_scale;
   GBRForestD* forest_EB_zs1_resolution;
 
-  GBRForestD* forest_EB_zs2_scale;
-  GBRForestD* forest_EB_zs2_resolution;
+  // GBRForestD* forest_EB_zs2_scale;
+  // GBRForestD* forest_EB_zs2_resolution;
 
-  GBRForestD* forest_EB_zs3_scale;
-  GBRForestD* forest_EB_zs3_resolution;
+  // GBRForestD* forest_EB_zs3_scale;
+  // GBRForestD* forest_EB_zs3_resolution;
 
   GBRForestD* forest_EE_zs1_scale;
   GBRForestD* forest_EE_zs1_resolution;
 
-  GBRForestD* forest_EE_zs2_scale;
-  GBRForestD* forest_EE_zs2_resolution;
+  // GBRForestD* forest_EE_zs2_scale;
+  // GBRForestD* forest_EE_zs2_resolution;
 
-  GBRForestD* forest_EE_zs3_scale;
-  GBRForestD* forest_EE_zs3_resolution;
+  // GBRForestD* forest_EE_zs3_scale;
+  // GBRForestD* forest_EE_zs3_resolution;
 
   std::vector<TFile*> file_;
 
@@ -177,10 +177,11 @@ int main(int argc, char** argv) {
   /*ParReader reader_EE_zs2; reader_EE_zs2.read(TString::Format("%s_EE_zs2.config", configPrefix.c_str()).Data());
   ParReader reader_EE_zs3; reader_EE_zs3.read(TString::Format("%s_EE_zs3.config", configPrefix.c_str()).Data());
   */
+  std::cout<<"here"<<std::endl;
   TFile* testingFile = TFile::Open(testingFileName.c_str());
   TTree* testingTree = (TTree*) testingFile->Get("een_analyzer/PfTree");
 
-  //std::cout<<"Opened the testing file"<<std::endl;
+  std::cout<<"Opened the testing file"<<std::endl;
 
 
   TTreeFormula clusrawE("clusrawE", "clusrawE", testingTree);
