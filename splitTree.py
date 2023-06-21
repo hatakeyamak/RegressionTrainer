@@ -5,6 +5,20 @@ inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_training.root')
 
 inputTree = inputFile.Get('een_analyzer/PfTree')
 
+########################################
+# Command line options
+########################################
+
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--test", action="store_true",
+                    help="reduce statistics for test")
+args = parser.parse_args()
+print(args.test)
+
+#####
+
 categories = ['ZS1_EB', 'ZS1_EE', 
               'FULL_EB_PT1', 'FULL_EB_PT2', 'FULL_EB_PT3',
               'FULL_EE_PT1', 'FULL_EE_PT2', 'FULL_EE_PT3']
@@ -30,6 +44,7 @@ for cat in categories:
 nevt=0
 for event in inputTree:
     nevt=nevt+1
+    #print(nevt,nevt%3)
     if event.genEnergy < 0.25: continue
     if event.nClus > 2: continue
 
@@ -66,16 +81,17 @@ for event in inputTree:
         
         if event.clusFlag == 1:
         #if event.clusSize == 1:
-            outputs[0][1].Fill()
+            if args.test == False or nevt%2 == 0: # reduce EB ZS statistics by a factor of 2 (if test)
+                outputs[0][1].Fill()
         elif event.clusFlag == 3:
         #elif event.clusSize > 2:
             if event.clusrawE/math.cosh(event.clusEta) < ptranges[1]:
                 outputs[2][1].Fill()
             elif event.clusrawE/math.cosh(event.clusEta) < ptranges[2]:
-                outputs[3][1].Fill()
+                if args.test == False or nevt%3 == 0: # reduce EB full pt2 statistics by a factor of 3 (if test)
+                    outputs[3][1].Fill()
             else:
-                #print(nevt,nevt%3)
-                if nevt%3 == 0: # reduce EB full pt3 statistics by a factor of 3
+                if args.test == False or nevt%6 == 0: # reduce EB full pt3 statistics by a factor of 6 (if test)
                     outputs[4][1].Fill()
     elif event.clusLayer == -2:
         nlgtgtvar[0] = (event.genEnergy/(event.clusrawE+event.clusPS1+event.clusPS2))
@@ -98,7 +114,8 @@ for event in inputTree:
             elif event.clusrawE/math.cosh(event.clusEta) < ptranges[2]:
                 outputs[6][1].Fill()
             else:
-                outputs[7][1].Fill()
+                if args.test == False or nevt%3 == 0: # reduce EE full pt3 statistics by a factor of 6 (if test)
+                    outputs[7][1].Fill()
 
 for out in outputs:
     out[0].cd('een_analyzer')
