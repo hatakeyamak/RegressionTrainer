@@ -20,7 +20,7 @@ import ROOT, math, numpy
 
 #inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClusters_noPU_training.root')
 #inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_pt_training.root')
-inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_using_my_db_training.root')
+inputFile = ROOT.TFile.Open('pfClusters_tree_noPU_training.root')
 
 inputTree = inputFile.Get('een_analyzer/PfTree')
 
