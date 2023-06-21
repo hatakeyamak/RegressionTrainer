@@ -6,29 +6,14 @@ def separate(initial,target,filename,inputTree, outfilename):
 	print "opening file pfClusters_%s.root" %(filename)
 
 	outputFile = ROOT.TFile.Open('pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#	outputFile = ROOT.TFile.Open('eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#	outputFile = ROOT.TFile.Open('eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/afterDebug_16june/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#	outputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/MC18_V2/FlatTrees/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#	outputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#	outputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/FlatTrees/v1/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
-	#pfClusters_noPU10To300.root
-	#outputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClusters_%s_%s.root' %(filename,outfilename), 'RECREATE')
 	
-	#outputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/debug_2018UL/tree_%s_%s.root' %(filename,outfilename), 'RECREATE')
 	outputFile.mkdir('een_analyzer')
 	outputFile.cd('een_analyzer')
-	
-
 
 	nentries = int(inputTree.GetEntries())
 	print "Total entries in original tree ",nentries
 	print "For training tree, copying ",target-initial, " entries"
 	
-#outputTree = inputTree.CopyTree('','',target,0)
-#outputTree.Write('PfTree')
-#outputFile.Close()
-
-
 	outputTree = inputTree.CloneTree(0)
 #	print "Now writing the branch weight in the output file"
 	weight = numpy.zeros(1, dtype=float)
@@ -40,7 +25,6 @@ def separate(initial,target,filename,inputTree, outfilename):
 
 #	print "Entries in output tree ", outputTree.GetEntries()
 
-###0 till target-1
 	for ev in range(initial,target):
 		if (inputTree.GetEntry(ev) <= 0):
 			raise Exception('TTree::GetEntry() failed')
@@ -61,32 +45,9 @@ def separate(initial,target,filename,inputTree, outfilename):
 
 ###################################################################3
 ####training tree
-#inputFile = ROOT.TFile.Open('root://eoscms.cern.ch//eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/pfClusters_%s.root' % sys.argv[1])
-#inputFile = ROOT.TFile.Open('root://eoscms.cern.ch//eos/cms/store/group/phys_egamma/PFClusteRegressionTrees/afterDebug_16june/pfClusters_%s.root' % sys.argv[1])
-
-#print "input file is /eos/cms/store/group/phys_egamma/PFClusterCalibration/MC18_V2/FlatTrees/pfClusters_%s.root", sys.argv[1]
-#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/MC18_V2/FlatTrees/pfClusters_%s.root' % sys.argv[1])
-
-
-#print "input file is /eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/FlatTrees/pfClusters_%s.root", sys.argv[1]
-#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/FlatTrees/pfClusters_%s.root' % sys.argv[1])
-
-
-#print "input file is /eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/FlatTrees/v1/pfClusters_%s.root", sys.argv[1]
-#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V0_2017/FlatTrees/v1/pfClusters_%s.root' % sys.argv[1])
-
-
-
-#print "input file is /eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018//pfClusters_%s.root", sys.argv[1]
-#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/pfClusters_%s.root' % sys.argv[1])
 
 print "input file is %s.root", sys.argv[1]
 inputFile = ROOT.TFile.Open('%s.root' % sys.argv[1])
-
-
-#print "input file is /eos/cms/store/group/phys_egamma/PFClusterCalibration/150_V2_2018/tree.root"
-#inputFile = ROOT.TFile.Open('/eos/cms/store/group/phys_egamma/PFClusterCalibration/debug_2018UL/tree.root')
-
 
 inputTree = inputFile.Get('een_analyzer/PfTree')
 nentries = int(inputTree.GetEntries())
